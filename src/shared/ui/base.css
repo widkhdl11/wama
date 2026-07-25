@@ -1,0 +1,317 @@
+/* wama 기본 스타일. 색/radius/shadow는 tokens.css 변수. 간격은 공통 레이아웃=--space-* 토큰,
+   일회성=짝수 px 허용(홀수 금지). design-rules.md 기준. */
+* { box-sizing: border-box; }
+[hidden] { display: none !important; } /* .form-field 등 display 지정 요소에도 hidden이 먹도록 */
+html, body { margin: 0; }
+body {
+  font-family: var(--font-sans);
+  background: var(--bg-page);
+  color: var(--ink);
+  font-size: 16px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+a { color: inherit; text-decoration: none; }
+button { font: inherit; }
+
+.container { max-width: var(--maxw); margin: 0 auto; padding: 0 var(--space-6); }
+.num { font-variant-numeric: tabular-nums; }
+.sr-only {
+  position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+  overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0;
+}
+
+/* 헤더 */
+.app-header {
+  position: sticky; top: 0; z-index: 20;
+  background: color-mix(in srgb, var(--bg-surface) 95%, transparent);
+  border-bottom: 1px solid var(--line);
+  backdrop-filter: blur(6px);
+}
+.app-header__inner { height: 64px; display: flex; align-items: center; justify-content: space-between; }
+.brand-mark { display: inline-flex; align-items: center; gap: 10px; }
+.brand-logo {
+  width: 32px; height: 32px; border-radius: var(--radius);
+  background: var(--brand); color: var(--on-brand); font-weight: 700;
+  display: inline-flex; align-items: center; justify-content: center;
+}
+.brand-name { font-size: 17px; font-weight: 600; letter-spacing: -0.01em; }
+.account {
+  display: inline-flex; align-items: center; gap: 10px;
+  border: 0; background: transparent; padding: 6px 8px; border-radius: var(--radius); cursor: pointer;
+}
+.account:hover { background: var(--bg-page); }
+.account__meta { text-align: right; }
+.account__name { display: block; font-size: 14px; font-weight: 500; line-height: 1.3; }
+.account__sub { display: block; font-size: 12px; color: var(--muted); line-height: 1.3; }
+.avatar {
+  width: 36px; height: 36px; border-radius: 999px;
+  background: var(--brand-soft); color: var(--brand); font-weight: 600;
+  display: inline-flex; align-items: center; justify-content: center;
+  box-shadow: inset 0 0 0 1px var(--brand-border);
+}
+
+/* 페이지 */
+.page { padding: var(--space-8) 0; }
+.page-head { display: flex; align-items: flex-start; justify-content: space-between; gap: var(--space-3); }
+.page__title { margin: 0; font-size: 22px; font-weight: 700; letter-spacing: -0.01em; }
+.page__desc { margin: 4px 0 0; font-size: 14px; color: var(--muted); }
+
+/* 요약 지표 */
+.stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-4); margin: var(--space-6) 0; }
+.stat {
+  background: var(--bg-surface); border: 1px solid var(--line);
+  border-radius: var(--radius); padding: var(--space-4); box-shadow: var(--shadow-thin);
+}
+.stat__label { display: flex; align-items: center; gap: 8px; color: var(--muted); font-size: 14px; }
+.stat__value { margin-top: 8px; font-size: 30px; font-weight: 700; line-height: 1; }
+.stat__value small { font-size: 14px; font-weight: 400; color: var(--muted); }
+.stat__value--sm { font-size: 15px; font-weight: 600; }
+.stat__note { margin-top: 6px; font-size: 12px; color: var(--muted); }
+.progress { margin-top: var(--space-3); height: 6px; border-radius: 999px; background: var(--status-wait-bg); overflow: hidden; }
+.progress__bar { height: 100%; background: var(--brand); border-radius: 999px; }
+
+/* 툴바 */
+.toolbar { display: flex; align-items: center; justify-content: space-between; gap: var(--space-3); margin-bottom: var(--space-4); flex-wrap: wrap; }
+.toolbar__filters { display: flex; align-items: center; gap: 10px; flex: 1; flex-wrap: wrap; }
+.input, .select {
+  font: inherit; font-size: 16px; color: var(--ink);
+  background: var(--bg-surface); border: 1px solid var(--line);
+  border-radius: var(--radius); padding: 8px 12px;
+}
+.input { width: 288px; max-width: 100%; }
+.input:focus, .select:focus { border-color: var(--brand); }
+.btn-primary {
+  display: inline-flex; align-items: center; gap: 6px;
+  background: var(--brand-strong); color: var(--on-brand); font-weight: 600; font-size: 15px;
+  border: 0; border-radius: var(--radius); padding: 8px 16px; box-shadow: var(--shadow-thin); cursor: pointer;
+}
+.btn-primary:hover { background: var(--brand-strong-hover); }
+
+/* 보조 버튼(고스트) — 취소·수정 등 비주요 액션 */
+.btn-ghost {
+  display: inline-flex; align-items: center; gap: 6px;
+  background: var(--bg-surface); color: var(--ink); font-weight: 500; font-size: 15px;
+  border: 1px solid var(--line); border-radius: var(--radius); padding: 8px 16px; cursor: pointer;
+}
+.btn-ghost:hover { background: var(--bg-page); border-color: var(--muted); }
+.btn-ghost--sm { padding: 6px 12px; font-size: 13px; }
+
+/* 표 */
+.table-card {
+  background: var(--bg-surface); border: 1px solid var(--line);
+  border-radius: var(--radius); overflow: hidden; box-shadow: var(--shadow-thin);
+}
+.table { width: 100%; border-collapse: collapse; text-align: left; font-size: 16px; }
+.table thead th {
+  background: var(--bg-page); color: var(--muted);
+  font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.03em;
+  padding: var(--space-3) var(--space-5); border-bottom: 1px solid var(--line);
+}
+.table tbody td { padding: var(--space-3) var(--space-5); border-bottom: 1px solid var(--line); color: var(--muted); }
+.table tbody tr:last-child td { border-bottom: 0; }
+/* 행 클릭 어포던스는 상호작용 표(학생 목록)만 — 읽기 전용 상세 표에는 붙이지 않는다 */
+.table--rows-link tbody tr { cursor: pointer; }
+.table--rows-link tbody tr:hover { background: color-mix(in srgb, var(--brand-soft) 60%, transparent); }
+.student-name { font-weight: 500; color: var(--ink); }
+.table--rows-link tbody tr:hover .student-name { color: var(--brand-strong); text-decoration: underline; }
+.col-right { text-align: right; }
+
+/* 그룹 표 — 한 시험의 과목 행들은 사이 구분선을 없애고, 시험 경계에만 선을 둔다.
+   시험/종류/시기 셀은 rowspan으로 묶이므로 위쪽 정렬. */
+.table--grouped tbody td { border-bottom: 0; }
+.table--grouped tbody tr.exam-end td { border-bottom: 1px solid var(--line); }
+.table--grouped tbody tr:last-child td { border-bottom: 0; }
+.table--grouped .exam-cell { vertical-align: top; }
+
+/* 뱃지 (완료=강조색 / 대기=회색 — 강조색 하나만) */
+.badge { display: inline-flex; align-items: center; border-radius: 999px; padding: 2px 10px; font-size: 12px; font-weight: 500; }
+.badge--done { background: var(--status-done-bg); color: var(--status-done-fg); box-shadow: inset 0 0 0 1px var(--brand-border); }
+.badge--wait { background: var(--status-wait-bg); color: var(--status-wait-fg); box-shadow: inset 0 0 0 1px var(--line); }
+
+/* 페이지네이션 */
+.pagination { display: flex; align-items: center; justify-content: space-between; padding: var(--space-3) var(--space-5); border-top: 1px solid var(--line); font-size: 14px; color: var(--muted); }
+.pagination__pages { display: flex; align-items: center; gap: 4px; }
+.page-btn { border: 0; background: transparent; border-radius: var(--radius); padding: 6px 12px; color: var(--muted); cursor: pointer; }
+.page-btn:hover { background: var(--status-wait-bg); }
+.page-btn--active { background: var(--brand-strong); color: var(--on-brand); font-weight: 500; }
+
+/* 상세 — 뒤로가기 */
+.back-link { display: inline-flex; align-items: center; font-size: 14px; color: var(--muted); margin-bottom: var(--space-4); }
+.back-link:hover { color: var(--brand-strong); text-decoration: underline; }
+
+/* 상세 — 학생 요약 히어로 */
+.student-hero {
+  display: flex; align-items: center; justify-content: space-between; gap: var(--space-4); flex-wrap: wrap;
+  background: var(--bg-surface); border: 1px solid var(--line);
+  border-radius: var(--radius); padding: var(--space-5) var(--space-6); box-shadow: var(--shadow-thin);
+}
+.student-hero__id { display: flex; align-items: center; gap: var(--space-4); }
+.student-hero__avatar {
+  width: 52px; height: 52px; border-radius: 999px; flex-shrink: 0;
+  background: var(--brand-soft); color: var(--brand-strong); font-weight: 700; font-size: 22px;
+  display: inline-flex; align-items: center; justify-content: center;
+  box-shadow: inset 0 0 0 1px var(--brand-border);
+}
+.student-hero__name { margin: 0; font-size: 22px; font-weight: 700; letter-spacing: -0.01em; }
+.hero-meta { display: flex; gap: var(--space-5); margin-top: 6px; flex-wrap: wrap; }
+.hero-meta__item { display: flex; align-items: baseline; gap: 6px; font-size: 14px; }
+.hero-meta__label { color: var(--muted); }
+.hero-meta__value { font-weight: 500; }
+
+/* 상세 — 섹션 카드 */
+.detail-grid { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-4); margin: var(--space-4) 0; }
+.section-card {
+  background: var(--bg-surface); border: 1px solid var(--line);
+  border-radius: var(--radius); box-shadow: var(--shadow-thin); overflow: hidden; margin: var(--space-4) 0;
+}
+.detail-grid .section-card { margin: 0; }
+.section-card__head {
+  display: flex; align-items: center; justify-content: space-between; gap: var(--space-3);
+  padding: var(--space-4) var(--space-5); border-bottom: 1px solid var(--line);
+}
+.section-card__title { margin: 0; font-size: 16px; font-weight: 600; }
+.section-card__head-actions { display: flex; align-items: center; gap: var(--space-4); }
+.section-card__body { padding: var(--space-1) 0; }
+/* 상세 표: 줄바꿈 대신 한 줄 유지 + 넘치면 가로 스크롤 (긴 시험명 줄바꿈 방지) */
+.section-card .table th, .section-card .table td { white-space: nowrap; }
+.table-scroll { overflow-x: auto; }
+.section-card__body .empty-note { padding: var(--space-6) var(--space-5); color: var(--muted); font-size: 14px; text-align: center; }
+
+/* 상세 — 점수 요약 (주요 수치는 ink로 위계 부여, 목록의 이름 강조와 대칭) */
+.score-summary { display: flex; gap: var(--space-5); }
+.score-summary__item { display: flex; flex-direction: column; align-items: flex-end; line-height: 1.2; }
+.score-summary__value { font-size: 18px; font-weight: 700; }
+.score-summary__label { font-size: 12px; color: var(--muted); }
+.score-cell { color: var(--ink); }
+.score-cell__max { color: var(--muted); font-weight: 400; }
+
+/* 상세 — 카테고리 칩(중립 회색). 틸 계열은 상태=완료 신호로만 예약 → 여기선 쓰지 않는다 */
+.chip {
+  display: inline-flex; align-items: center; border-radius: 999px; padding: 2px 10px;
+  font-size: 12px; font-weight: 500;
+  background: var(--status-wait-bg); color: var(--status-wait-fg); box-shadow: inset 0 0 0 1px var(--line);
+}
+.day-chip {
+  display: inline-flex; align-items: center; justify-content: center; width: 26px; height: 26px;
+  border-radius: 999px; font-size: 13px; font-weight: 500;
+  background: var(--bg-page); box-shadow: inset 0 0 0 1px var(--line);
+}
+
+/* 상세 — 월간 평가 이력 (년.월로 묶음) */
+.eval-groups { padding: var(--space-1) var(--space-5); }
+.eval-group { padding: var(--space-3) 0; border-bottom: 1px solid var(--line); }
+.eval-group:last-child { border-bottom: 0; }
+.eval-group__head { display: flex; align-items: baseline; gap: 10px; margin-bottom: 4px; }
+.eval-group__month { margin: 0; font-weight: 700; font-size: 16px; }
+.eval-group__count { font-size: 13px; color: var(--muted); }
+.eval-group .eval-list { padding: 0; }
+.eval-group .eval-item { padding: 10px 0; border-bottom: 0; }
+.eval-item__edit { margin-left: auto; font-size: 13px; }
+/* 표 셀 안의 링크(시험명·수정 등) */
+.cell-link { color: var(--ink); font-weight: 500; }
+.cell-link:hover { color: var(--brand-strong); text-decoration: underline; }
+.eval-list { list-style: none; margin: 0; padding: var(--space-2) var(--space-5); }
+.eval-item { padding: var(--space-4) 0; border-bottom: 1px solid var(--line); }
+.eval-item:last-child { border-bottom: 0; }
+.eval-item__head { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+.eval-item__month { font-weight: 700; font-size: 15px; }
+.eval-item__subject { font-size: 13px; color: var(--muted); }
+.eval-item__teacher { font-size: 13px; color: var(--muted); }
+.eval-item__body { margin: 8px 0 0; font-size: 16px; line-height: 1.65; color: var(--ink); }
+
+/* 상세 — 히어로 액션 묶음 */
+.hero-actions { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+
+/* 상세 — 빈 상태 */
+.empty-state { text-align: center; padding: 64px 0; }
+
+/* 폼 화면 (등록/수정) — 승인된 카드·인풋 언어 재사용, 중앙 정렬 좁은 폭 */
+.form-page { max-width: 560px; }
+.form-card {
+  background: var(--bg-surface); border: 1px solid var(--line);
+  border-radius: var(--radius); box-shadow: var(--shadow-thin);
+  padding: var(--space-6); margin-top: var(--space-4); display: flex; flex-direction: column; gap: 18px;
+}
+.form-field { display: flex; flex-direction: column; gap: 6px; }
+.form-field__label { font-size: 14px; font-weight: 500; color: var(--ink); }
+.form-field__hint { font-size: 13px; color: var(--muted); }
+.input--block, .select--block { width: 100%; }
+.textarea { min-height: 140px; resize: vertical; line-height: 1.6; }
+.form-static {
+  font-size: 16px; color: var(--ink);
+  padding: 8px 12px; background: var(--bg-page);
+  border: 1px solid var(--line); border-radius: var(--radius);
+}
+.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-4); }
+.form-actions { display: flex; justify-content: flex-end; gap: 10px; margin-top: 4px; }
+
+/* 과목별 점수 다행 입력 */
+.score-grid { display: flex; flex-direction: column; gap: 8px; }
+.score-grid__head, .score-grid__row { display: grid; grid-template-columns: 1fr 96px 96px; gap: 8px; align-items: center; }
+.score-grid__head { font-size: 13px; color: var(--muted); padding: 0 2px; }
+.score-grid__subject { font-size: 15px; }
+.score-grid .input { width: 100%; min-width: 0; }
+.schedule-add__title { margin: var(--space-6) 0 var(--space-3); }
+.day-checks { display: flex; flex-wrap: wrap; gap: 8px 12px; }
+.day-check { display: inline-flex; align-items: center; gap: 4px; font-size: 14px; cursor: pointer; }
+.day-cell { display: flex; gap: 4px; flex-wrap: wrap; }
+
+/* 인증 (로그인 전 표면 — 앱 헤더 없이 중앙 정렬). design-rules "인증 화면" 승인 2026-07-24 */
+.auth-page {
+  min-height: 100vh; display: flex; flex-direction: column;
+  align-items: center; justify-content: center; gap: var(--space-6); padding: var(--space-8) var(--space-6);
+}
+.auth-brand { display: inline-flex; flex-direction: column; align-items: center; gap: var(--space-2); }
+.auth-brand__logo {
+  width: 40px; height: 40px; border-radius: var(--radius);
+  background: var(--brand-strong); color: var(--on-brand); font-weight: 700; font-size: 20px;
+  display: inline-flex; align-items: center; justify-content: center;
+}
+.auth-brand__name { font-size: 20px; font-weight: 700; letter-spacing: -0.01em; }
+.auth-card {
+  width: 100%; max-width: 400px;
+  background: var(--bg-surface); border: 1px solid var(--line);
+  border-radius: var(--radius); box-shadow: var(--shadow-thin); padding: var(--space-6);
+}
+.auth-tabs { display: flex; gap: 4px; padding: 4px; margin-bottom: var(--space-5); background: var(--bg-page); border-radius: var(--radius); }
+.auth-tab { flex: 1; text-align: center; padding: 8px 12px; border-radius: 6px; font-size: 14px; font-weight: 600; color: var(--muted); }
+.auth-tab--active { background: var(--bg-surface); color: var(--brand-strong); box-shadow: var(--shadow-thin); }
+.auth-form { display: flex; flex-direction: column; gap: var(--space-4); }
+.btn-block { width: 100%; justify-content: center; }
+
+/* 폼 상태 알림 — 오류(danger)·안내(중립). 라이브 리전은 항상 상주하되 비면 숨긴다. */
+.form-note {
+  margin: 0; padding: var(--space-2) var(--space-3);
+  border-radius: var(--radius); font-size: 14px; line-height: 1.4;
+}
+.form-note:empty { display: none; }
+.form-note--error { background: var(--danger-soft); color: var(--danger); border: 1px solid var(--danger-border); }
+.form-note--info { background: var(--brand-soft); color: var(--brand-strong); border: 1px solid var(--brand-border); }
+
+/* 삭제 버튼 확정 대기(두 번 눌러 삭제) — danger 강조로 되돌릴 수 없음을 알린다. */
+.btn-ghost.is-armed { background: var(--danger-soft); color: var(--danger); border-color: var(--danger-border); }
+.auth-sub { text-align: center; font-size: 14px; color: var(--muted); }
+.auth-sub:hover { color: var(--brand-strong); text-decoration: underline; }
+.auth-title { margin: 0 0 var(--space-5); font-size: 18px; font-weight: 700; text-align: center; }
+.auth-block { border: 1px solid var(--line); border-radius: var(--radius); padding: var(--space-5); }
+.auth-block__title { margin: 0 0 var(--space-3); font-size: 14px; font-weight: 600; color: var(--ink); }
+.auth-divider { display: flex; align-items: center; text-align: center; color: var(--muted); font-size: 13px; margin: var(--space-5) 0; }
+.auth-divider::before, .auth-divider::after { content: ""; flex: 1; height: 1px; background: var(--line); }
+.auth-divider span { padding: 0 12px; }
+/* 인풋 focus 글로우 (인증 카드 한정) — 하드코딩 rgba 대신 color-mix로 토큰 파생 */
+.auth-card .input:focus { box-shadow: 0 0 0 3px color-mix(in srgb, var(--brand) 15%, transparent); }
+
+/* 포커스 링 (접근성 — 제거 금지) */
+:where(a, button, input, select, textarea):focus-visible {
+  outline: 2px solid var(--brand); outline-offset: 2px; border-radius: 6px;
+}
+
+@media (max-width: 640px) {
+  .stats { grid-template-columns: 1fr; }
+  .toolbar { flex-direction: column; align-items: stretch; }
+  .input { width: 100%; }
+  .detail-grid { grid-template-columns: 1fr; }
+  .student-hero { align-items: flex-start; }
+  .form-row { grid-template-columns: 1fr; }
+}
