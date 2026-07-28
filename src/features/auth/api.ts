@@ -113,3 +113,18 @@ export async function getMyAcademy(): Promise<Result<Academy | null>> {
     return err(e instanceof Error ? e.message : "학원 응답을 해석할 수 없습니다.");
   }
 }
+
+export interface SessionHeader {
+  readonly academyName: string;
+  readonly teacherName: string;
+}
+
+// 상단 헤더 표시용 — 현재 세션의 학원명 + 교사 이름(회원가입 시 user_metadata.name).
+// 표시 전용이라 실패해도 화면은 떠야 하므로 안전한 기본값으로 저하한다.
+export async function getSessionHeader(): Promise<SessionHeader> {
+  const [academy, user] = await Promise.all([getMyAcademy(), supabase.auth.getUser()]);
+  const academyName = academy.ok && academy.value ? academy.value.name : "학원";
+  const meta = user.data.user?.user_metadata as { name?: unknown } | undefined;
+  const teacherName = typeof meta?.name === "string" && meta.name.trim() ? meta.name : "선생님";
+  return { academyName, teacherName };
+}

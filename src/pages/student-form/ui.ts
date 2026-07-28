@@ -6,6 +6,7 @@ import {
 } from "@/entities/student/model";
 import type { StudentProfile } from "@/entities/student/model";
 import { renderHeader } from "@/widgets/header/ui";
+import { getSessionHeader } from "@/features/auth/api";
 
 type Mode = "create" | "edit";
 
@@ -146,6 +147,7 @@ function backHref(mode: Mode, p: StudentProfile | null): string {
 // 학생 등록/수정 폼 페이지 조합 (표시만 — 데이터는 repo에서, 저장 로직 없음).
 export async function mountStudentFormPage(root: HTMLElement, mode: Mode, id?: string): Promise<void> {
   const profile = mode === "edit" && id ? await getStudentProfile(id) : null;
+  const hdr = await getSessionHeader();
   const isMissing = mode === "edit" && !profile;
 
   const title = mode === "create" ? "학생 등록" : "학생 정보 수정";
@@ -154,7 +156,7 @@ export async function mountStudentFormPage(root: HTMLElement, mode: Mode, id?: s
     : "학생의 기본 정보를 수정합니다.";
 
   root.replaceChildren(
-    renderHeader("온마음수학학원", { name: "김지현 선생님", role: "담임 · 중등부" }),
+    renderHeader(hdr.academyName, { name: hdr.teacherName }),
     el("main", { class: "container page form-page" },
       el("a", { class: "back-link", href: backHref(mode, profile) }, "← 돌아가기"),
       el("div", {},

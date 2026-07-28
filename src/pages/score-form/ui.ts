@@ -6,6 +6,7 @@ import { EXAM_KINDS, type Exam, type ExamKind, type SubjectScore } from "@/entit
 import { createExam, updateExam, getExamForEdit, type ExamInput } from "@/entities/exam-score/repo";
 import { listSubjects } from "@/entities/subject/repo";
 import { renderHeader } from "@/widgets/header/ui";
+import { getSessionHeader } from "@/features/auth/api";
 
 const YEARS = ["2026", "2025", "2024"] as const;
 const SEMESTERS = ["1학기", "2학기"] as const;
@@ -170,12 +171,13 @@ export async function mountScoreFormPage(
     mode === "edit" && examId ? getExamForEdit(examId) : Promise.resolve(null),
   ]);
   const subjectNames = subjRes.ok ? subjRes.value.map((s) => s.name) : [];
+  const hdr = await getSessionHeader();
   const title = mode === "edit" ? "시험 점수 수정" : "시험 점수 입력";
   const desc = mode === "edit"
     ? "이 시험의 과목별 점수를 수정합니다."
     : "한 시험의 과목별 점수를 한 번에 입력합니다.";
   root.replaceChildren(
-    renderHeader("온마음수학학원", { name: "김지현 선생님", role: "담임 · 중등부" }),
+    renderHeader(hdr.academyName, { name: hdr.teacherName }),
     el("main", { class: "container page form-page" },
       el("a", { class: "back-link", href: student ? `#/students/${student.id}` : "#/students" }, "← 돌아가기"),
       el("div", {},

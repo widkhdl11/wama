@@ -7,10 +7,9 @@
     "strict": true,
     "noEmit": false,
     "outDir": "dist",
-    "baseUrl": ".",
     "paths": {
       "@/*": [
-        "src/*"
+        "./src/*"
       ]
     }
   },

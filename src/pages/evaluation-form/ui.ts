@@ -7,6 +7,7 @@ import {
   type EvaluationInput, type EvaluationEdit,
 } from "@/entities/evaluation/repo";
 import { renderHeader } from "@/widgets/header/ui";
+import { getSessionHeader } from "@/features/auth/api";
 
 // 이번 달(YYYY-MM) — month 입력 기본값.
 function currentMonth(): string {
@@ -78,9 +79,10 @@ export async function mountEvaluationFormPage(
     getStudent(id),
     mode === "edit" && evalId ? getEvaluationForEdit(evalId) : Promise.resolve(null),
   ]);
+  const hdr = await getSessionHeader();
   const title = mode === "edit" ? "월간 서술 평가 수정" : "월간 서술 평가 작성";
   root.replaceChildren(
-    renderHeader("온마음수학학원", { name: "김지현 선생님", role: "담임 · 중등부" }),
+    renderHeader(hdr.academyName, { name: hdr.teacherName }),
     el("main", { class: "container page form-page" },
       el("a", { class: "back-link", href: student ? `#/students/${student.id}` : "#/students" }, "← 돌아가기"),
       el("div", {},

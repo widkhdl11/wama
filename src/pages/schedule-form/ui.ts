@@ -5,6 +5,7 @@ import { getSchedule, createSlot, deleteSlot } from "@/entities/schedule/repo";
 import type { ScheduleSlot, Weekday } from "@/entities/schedule/model";
 import { listSubjects } from "@/entities/subject/repo";
 import { renderHeader } from "@/widgets/header/ui";
+import { getSessionHeader } from "@/features/auth/api";
 
 const WEEKDAYS: readonly Weekday[] = ["월", "화", "수", "목", "금", "토", "일"];
 const dayOrder = (d: Weekday): number => WEEKDAYS.indexOf(d);
@@ -38,10 +39,11 @@ function groupSlots(slots: readonly ScheduleSlot[]): SlotGroup[] {
 export async function mountScheduleFormPage(root: HTMLElement, id: string): Promise<void> {
   const student = await getStudent(id);
   const backHref = student ? `#/students/${student.id}` : "#/students";
+  const hdr = await getSessionHeader();
 
   if (!student) {
     root.replaceChildren(
-      renderHeader("온마음수학학원", { name: "김지현 선생님", role: "담임 · 중등부" }),
+      renderHeader(hdr.academyName, { name: hdr.teacherName }),
       el("main", { class: "container page" },
         el("a", { class: "back-link", href: "#/students" }, "← 학원생 목록"),
         el("div", { class: "empty-state" }, el("p", { class: "page__desc" }, `학생(${id})을 찾을 수 없습니다.`)),

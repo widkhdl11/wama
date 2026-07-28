@@ -3,6 +3,7 @@ import { field, textInput, formNote, withPending } from "@/shared/lib/form";
 import type { Subject } from "@/entities/subject/model";
 import { listSubjects, addSubject, deleteSubject } from "@/entities/subject/repo";
 import { renderHeader } from "@/widgets/header/ui";
+import { getSessionHeader } from "@/features/auth/api";
 
 // 과목 관리 페이지 (학원 단위 설정) — Supabase 에 영구 저장. 격리는 서버 RLS.
 // 과목을 엔티티로 관리(추가·삭제). 시간표·평가·성적이 이 과목명을 참조한다.
@@ -41,6 +42,7 @@ export async function mountSubjectsPage(root: HTMLElement): Promise<void> {
   }
 
   const initial = await listSubjects();
+  const hdr = await getSessionHeader();
   if (initial.ok) {
     render(initial.value);
   } else {
@@ -81,7 +83,7 @@ export async function mountSubjectsPage(root: HTMLElement): Promise<void> {
   });
 
   root.replaceChildren(
-    renderHeader("온마음수학학원", { name: "김지현 선생님", role: "담임 · 중등부" }),
+    renderHeader(hdr.academyName, { name: hdr.teacherName }),
     el("main", { class: "container page form-page" },
       el("a", { class: "back-link", href: "#/students" }, "← 학원생 목록"),
       el("div", {},

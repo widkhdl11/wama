@@ -7,6 +7,7 @@ import { getEvaluations } from "@/entities/evaluation/repo";
 import { getExams } from "@/entities/exam-score/repo";
 import { summarizeScores } from "@/entities/exam-score/model";
 import { renderHeader } from "@/widgets/header/ui";
+import { getSessionHeader, type SessionHeader } from "@/features/auth/api";
 import { renderScheduleTable } from "@/widgets/schedule-table/ui";
 import { renderEvaluationHistory } from "@/widgets/evaluation-history/ui";
 import { renderExamScoreTable } from "@/widgets/exam-score-table/ui";
@@ -48,9 +49,9 @@ function tableWithNav(table: HTMLElement, total: number): HTMLElement {
   );
 }
 
-function notFound(root: HTMLElement, id: string): void {
+function notFound(root: HTMLElement, id: string, hdr: SessionHeader): void {
   root.replaceChildren(
-    renderHeader("온마음수학학원", { name: "김지현 선생님", role: "담임 · 중등부" }),
+    renderHeader(hdr.academyName, { name: hdr.teacherName }),
     el("main", { class: "container page" },
       el("a", { class: "back-link", href: "#/students" }, "← 학원생 목록"),
       el("div", { class: "empty-state" },
@@ -90,8 +91,9 @@ function deleteButton(studentId: string, studentName: string): HTMLElement {
 // 학생 상세 페이지 조합 (표시만 — 데이터는 repo에서, 판단 로직 없음).
 export async function mountStudentDetailPage(root: HTMLElement, id: string): Promise<void> {
   const student = await getStudent(id);
+  const hdr = await getSessionHeader();
   if (!student) {
-    notFound(root, id);
+    notFound(root, id, hdr);
     return;
   }
 
@@ -119,7 +121,7 @@ export async function mountStudentDetailPage(root: HTMLElement, id: string): Pro
     el("a", { class: "btn-ghost btn-ghost--sm", href }, label);
 
   root.replaceChildren(
-    renderHeader("온마음수학학원", { name: "김지현 선생님", role: "담임 · 중등부" }),
+    renderHeader(hdr.academyName, { name: hdr.teacherName }),
     el("main", { class: "container page detail" },
       el("a", { class: "back-link", href: "#/students" }, "← 학원생 목록"),
 
