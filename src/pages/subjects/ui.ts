@@ -1,17 +1,17 @@
-import { el } from "@/shared/lib/dom";
-import { field, textInput, numberInput, formNote, withPending } from "@/shared/lib/form";
-import { formatWon } from "@/shared/lib/money";
 import type { Subject } from "@/entities/subject/model";
-import { listSubjects, addSubject, deleteSubject } from "@/entities/subject/repo";
 import { MAX_SESSIONS_PER_WEEK, MAX_SUBJECT_FEE, sortPrices, type SubjectPrice } from "@/entities/subject/price";
 import {
-  listSubjectPrices,
   addSubjectPrice,
-  updateSubjectPrice,
   deleteSubjectPrice,
+  listSubjectPrices,
+  updateSubjectPrice,
 } from "@/entities/subject/price-repo";
-import { renderHeader } from "@/widgets/header/ui";
+import { addSubject, deleteSubject, listSubjects } from "@/entities/subject/repo";
 import { getSessionHeader } from "@/features/auth/api";
+import { el } from "@/shared/lib/dom";
+import { field, formNote, numberInput, textInput, withPending } from "@/shared/lib/form";
+import { formatWon } from "@/shared/lib/money";
+import { renderHeader } from "@/widgets/header/ui";
 
 // 과목 관리 페이지 (학원 단위 설정) — Supabase 에 영구 저장. 격리는 서버 RLS.
 // 과목을 엔티티로 관리(추가·삭제). 시간표·평가·성적이 이 과목명을 참조한다.
